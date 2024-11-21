@@ -4,9 +4,12 @@ import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidat
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, UUID> {
+
+    Optional<Candidate> findByUsernameOrEmail(String username, String email);
 
 }
