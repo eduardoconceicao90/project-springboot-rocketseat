@@ -1,8 +1,7 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.controller;
 
-import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
-import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Company;
-import io.github.eduardoconceicao90.project_springboot_rocketseat.service.CompanyService;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/company")
-public class CompanyController {
+@RequestMapping("/job")
+public class JobController {
 
     @Autowired
-    private CompanyService companyService;
+    private JobService jobService;
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody Company company){
+    public ResponseEntity<Object> create(@Valid @RequestBody Job job){
 
         try{
-            var result = companyService.create(company);
+            var result = jobService.create(job);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

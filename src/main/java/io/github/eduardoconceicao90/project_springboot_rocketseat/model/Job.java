@@ -1,6 +1,7 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,6 +18,8 @@ public class Job {
 
     private String description;
     private String benefits;
+
+    @NotBlank(message = "Esse campo é obrigatório")
     private String level;
 
     @ManyToOne

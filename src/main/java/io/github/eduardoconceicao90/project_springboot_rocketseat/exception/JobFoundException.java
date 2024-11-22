@@ -1,9 +1,9 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.exception;
 
-public class UserFoundException extends RuntimeException{
+public class JobFoundException extends RuntimeException{
 
-    public UserFoundException() {
-        super("Usuário já existe");
+    public JobFoundException() {
+        super("Job já existe");
     }
 
 }
