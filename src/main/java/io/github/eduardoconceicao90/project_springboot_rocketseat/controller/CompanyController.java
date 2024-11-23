@@ -1,6 +1,5 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.controller;
 
-import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Company;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.service.CompanyService;
 import jakarta.validation.Valid;
