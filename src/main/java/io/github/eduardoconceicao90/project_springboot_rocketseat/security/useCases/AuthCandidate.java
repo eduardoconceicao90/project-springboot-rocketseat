@@ -2,8 +2,9 @@ package io.github.eduardoconceicao90.project_springboot_rocketseat.security.useC
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.CompanyRepository;
-import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.AuthCompanyDTO;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.CandidateRepository;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.AuthCandidateDTO;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.TokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,25 +14,26 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Service
-public class AuthCompany {
+public class AuthCandidate {
 
     @Value("${security.token.secret}")
     private String secretKey;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CandidateRepository candidateRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
-        var company = companyRepository.findByUsername(authCompanyDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Company not found"));
+    public TokenDTO execute(AuthCandidateDTO authCandidateDTO) throws AuthenticationException {
+        var candidate = candidateRepository.findByUsername(authCandidateDTO.username())
+                .orElseThrow(() -> new UsernameNotFoundException("Candidate not found"));
 
         // Verificar se a senha informada é igual a senha do banco de dados
-        var passwordMatches = passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
+        var passwordMatches = passwordEncoder.matches(authCandidateDTO.password(), candidate.getPassword());
 
         // Se a senha informada não for igual a senha do banco de dados, lançar exceção
         if(!passwordMatches){
@@ -43,12 +45,12 @@ public class AuthCompany {
 
         var token = JWT.create()
                                 .withIssuer("javagas")
-                                .withClaim("type", "company")
-                                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
-                                .withSubject(company.getId().toString())
+                                .withClaim("type", "candidate")
+                                .withClaim("roles", Arrays.asList("candidate"))
+                                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(15)))
+                                .withSubject(candidate.getId().toString())
                                 .sign(algorithm);
 
-        return token;
-
+        return TokenDTO.builder().access_token(token).build();
     }
 }
