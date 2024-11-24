@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.time.Duration;
+import java.time.Instant;
 
 @Service
 public class AuthCompany {
@@ -38,9 +40,12 @@ public class AuthCompany {
 
         // Se a senha informada for igual a senha do banco de dados, autenticar usuário
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        var token = JWT.create().withIssuer("javagas")
-                    .withSubject(company.getId().toString())
-                    .sign(algorithm);
+        var token = JWT.create()
+                                .withIssuer("javagas")
+                                .withClaim("type", "company")
+                                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                                .withSubject(company.getId().toString())
+                                .sign(algorithm);
         return token;
 
     }
