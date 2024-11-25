@@ -1,6 +1,8 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.controller;
 
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.AuthCandidateDTO;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.AuthCompanyDTO;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.useCases.AuthCandidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.security.useCases.AuthCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,23 @@ public class AuthController {
     @Autowired
     private AuthCompany authCompany;
 
+    @Autowired
+    private AuthCandidate authCandidate;
+
     @PostMapping("/company")
     public ResponseEntity<Object> authCompany(@RequestBody AuthCompanyDTO authCompanyDTO){
         try{
             var token = authCompany.execute(authCompanyDTO);
+            return ResponseEntity.ok().body(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/candidate")
+    public ResponseEntity<Object> authCandidate(@RequestBody AuthCandidateDTO authCandidateDTO){
+        try{
+            var token = authCandidate.execute(authCandidateDTO);
             return ResponseEntity.ok().body(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());

@@ -43,14 +43,19 @@ public class AuthCandidate {
         // Se a senha informada for igual a senha do banco de dados, autenticar usuário
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
+        var expiresIn = Instant.now().plus(Duration.ofMinutes(15));
+
         var token = JWT.create()
                                 .withIssuer("javagas")
                                 .withClaim("type", "candidate")
                                 .withClaim("roles", Arrays.asList("candidate"))
-                                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(15)))
+                                .withExpiresAt(expiresIn)
                                 .withSubject(candidate.getId().toString())
                                 .sign(algorithm);
 
-        return TokenDTO.builder().access_token(token).build();
+        return TokenDTO.builder()
+                                .access_token(token)
+                                .expires_in(expiresIn.toEpochMilli())
+                                .build();
     }
 }
