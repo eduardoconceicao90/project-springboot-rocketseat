@@ -15,6 +15,9 @@ public class SecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
+    @Autowired
+    SecutiryCandidateFilter secutiryCandidateFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -23,7 +26,9 @@ public class SecurityConfig {
                             .requestMatchers("/auth/**").permitAll();
                     auth
                             .anyRequest().authenticated();
-                }).addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
+                })
+                .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(secutiryCandidateFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
 
