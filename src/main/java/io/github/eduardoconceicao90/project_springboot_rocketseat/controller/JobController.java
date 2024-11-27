@@ -4,9 +4,18 @@ import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Company;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.dto.JobDTO;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.service.JobService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +32,16 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
+    @Tag(name = "Vagas", description = "Informações das vagas")
+    @Operation(summary = "Cadastro de vagas",
+            description = "Essa função é responsável por cadastrar uma nova vaga")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = Job.class)
+            ))
+    })
+    @SecurityRequirement(name = "jwt_auth")
     @PreAuthorize("hasRole('COMPANY')")
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody JobDTO jobDTO, HttpServletRequest request){
