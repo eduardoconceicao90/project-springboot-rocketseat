@@ -32,7 +32,7 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @Tag(name = "Vagas", description = "Informações das vagas")
+    @Tag(name = "Vagas", description = "Cdastrar nova vaga")
     @Operation(summary = "Cadastro de vagas",
             description = "Essa função é responsável por cadastrar uma nova vaga")
     @ApiResponses({

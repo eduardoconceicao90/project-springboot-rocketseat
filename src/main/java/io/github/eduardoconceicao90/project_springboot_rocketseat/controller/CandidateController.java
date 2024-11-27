@@ -1,7 +1,9 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.controller;
 
+import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.ErrorMessageDTO;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.dto.ProfileCandidateDTO;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.security.useCases.ProfileCandidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.service.CandidateService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +47,21 @@ public class CandidateController {
 
     }
 
+    @Tag(name = "Candidate", description = "Informação do candidato")
+    @Operation(summary = "Perfil do candidato",
+            description = "Essa função é responsável por retornar o perfil do candidato")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ProfileCandidateDTO.class)
+            )),
+            @ApiResponse(responseCode = "400", description = "User not found",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorMessageDTO.class)
+            ))
+    })
+    @SecurityRequirement(name = "jwt_auth")
     @PreAuthorize("hasRole('CANDIDATE')")
     @GetMapping
     public ResponseEntity<Object> get(HttpServletRequest request){
@@ -60,7 +77,7 @@ public class CandidateController {
 
     }
 
-    @Tag(name = "Candidato", description = "Informações do candidato")
+    @Tag(name = "Candidato", description = "Informações das vagas")
     @Operation(summary = "Listagem de vagas disponíveis para o candidato",
             description = "Essa função é responsável por listar as vagas disponíveis para o candidato, baseada do filtro")
     @ApiResponses({
