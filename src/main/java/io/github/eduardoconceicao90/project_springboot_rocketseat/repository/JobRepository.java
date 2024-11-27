@@ -13,6 +13,6 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
 
     Optional<Job> findByDescription(String description);
 
-    List<Job> findByDescriptionContaining(String filter);
+    List<Job> findByDescriptionContainingIgnoreCase(String filter);
 
 }

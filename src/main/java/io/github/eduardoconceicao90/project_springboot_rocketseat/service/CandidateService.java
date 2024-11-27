@@ -39,7 +39,7 @@ public class CandidateService {
     }
 
     public List<Job> execute(String filter) {
-        return jobRepository.findByDescriptionContaining(filter);
+        return jobRepository.findByDescriptionContainingIgnoreCase(filter);
     }
 
 }
