@@ -1,6 +1,8 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.service;
 
+import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.JobNotFoundException;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.UserFoundException;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.UserNotFoundException;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.CandidateRepository;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CandidateService {
@@ -38,8 +41,22 @@ public class CandidateService {
 
     }
 
-    public List<Job> execute(String filter) {
+    public List<Job> findByDescription(String filter) {
         return jobRepository.findByDescriptionContainingIgnoreCase(filter);
+    }
+
+    public void execute(UUID idCandidate, UUID idJob) {
+        //Validar se o candidato existe
+        candidateRepository.findById(idCandidate).orElseThrow(() -> {
+            throw new UserNotFoundException();
+        });
+
+        //Validar se a vaga existe
+        jobRepository.findById(idJob).orElseThrow(() -> {
+            throw new JobNotFoundException();
+        });
+
+        //Adicionar o candidato na vaga
     }
 
 }

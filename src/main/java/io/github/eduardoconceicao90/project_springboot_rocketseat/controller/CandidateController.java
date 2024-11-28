@@ -98,7 +98,7 @@ public class CandidateController {
     @PreAuthorize("hasRole('CANDIDATE')")
     @GetMapping("/job")
     public ResponseEntity<List<Job>> findJobByFilter(@RequestParam String filter){
-        var list = candidateService.execute(filter);
+        var list = candidateService.findByDescription(filter);
         return ResponseEntity.ok().body(list);
     }
 
