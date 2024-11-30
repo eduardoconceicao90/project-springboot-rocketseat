@@ -3,6 +3,7 @@ package io.github.eduardoconceicao90.project_springboot_rocketseat.service;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.JobNotFoundException;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.UserFoundException;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.UserNotFoundException;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.model.ApplyJob;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.ApplyJobRepository;
@@ -49,7 +50,7 @@ public class CandidateService {
         return jobRepository.findByDescriptionContainingIgnoreCase(filter);
     }
 
-    public void execute(UUID idCandidate, UUID idJob) {
+    public ApplyJob execute(UUID idCandidate, UUID idJob) {
         //Validar se o candidato existe
         candidateRepository.findById(idCandidate).orElseThrow(() -> {
             throw new UserNotFoundException();
@@ -61,6 +62,12 @@ public class CandidateService {
         });
 
         //Adicionar o candidato na vaga
+        var applyJob = ApplyJob.builder()
+                                        .candidate(Candidate.builder().id(idCandidate).build())
+                                        .job(Job.builder().id(idJob).build())
+                                        .build();
+
+        return applyJobRepository.save(applyJob);
     }
 
 }
