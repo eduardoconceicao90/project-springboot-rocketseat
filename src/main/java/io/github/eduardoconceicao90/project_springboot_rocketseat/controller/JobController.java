@@ -5,7 +5,6 @@ import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.dto.JobDTO;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.service.JobService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
