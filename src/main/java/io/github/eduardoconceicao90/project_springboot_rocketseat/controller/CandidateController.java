@@ -102,4 +102,21 @@ public class CandidateController {
         return ResponseEntity.ok().body(list);
     }
 
+    @Operation(summary = "Inscrição do candidato em uma vaga",
+            description = "Essa função é responsável por realizar a inscrição do candidato em uma vaga")
+    @SecurityRequirement(name = "jwt_auth")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @PostMapping("/job/apply")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @RequestBody UUID idJob){
+        var idCandidate = request.getAttribute("candidate_id");
+
+        try{
+            var result = candidateService.execute(UUID.fromString(idCandidate.toString()), idJob);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
 }
