@@ -1,6 +1,6 @@
 package io.github.eduardoconceicao90.project_springboot_rocketseat.security;
 
-import io.github.eduardoconceicao90.project_springboot_rocketseat.security.provider.JWTProvider;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.security.provider.JWTCompanyProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityCompanyFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JWTProvider jwtProvider;
+    private JWTCompanyProvider jwtCompanyProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if(request.getRequestURI().startsWith("/company")){
             if(header != null){
-                var token = jwtProvider.validateToken(header);
+                var token = jwtCompanyProvider.validateToken(header);
                 request.setAttribute("company_id", token.getSubject());
 
                 var roles = token.getClaim("roles").asList(String.class);
