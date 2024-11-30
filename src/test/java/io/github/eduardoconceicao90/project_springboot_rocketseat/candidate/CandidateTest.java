@@ -9,7 +9,6 @@ import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.App
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.CandidateRepository;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.JobRepository;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.service.CandidateService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +19,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
