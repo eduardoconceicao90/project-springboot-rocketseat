@@ -5,6 +5,7 @@ import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.User
 import io.github.eduardoconceicao90.project_springboot_rocketseat.exception.UserNotFoundException;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Candidate;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.model.Job;
+import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.ApplyJobRepository;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.CandidateRepository;
 import io.github.eduardoconceicao90.project_springboot_rocketseat.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class CandidateService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private ApplyJobRepository applyJobRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
