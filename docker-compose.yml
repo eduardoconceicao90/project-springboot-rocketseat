@@ -1,0 +1,18 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - gv_network
+
+networks:
+  gv_network:
+    driver: bridge
+
+volumes:
+  prometheus_data:
