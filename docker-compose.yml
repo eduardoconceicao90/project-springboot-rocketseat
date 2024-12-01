@@ -10,9 +10,18 @@ services:
     networks:
       - gv_network
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - gv_network
+
 networks:
   gv_network:
     driver: bridge
 
 volumes:
   prometheus_data:
+  grafana_data:
